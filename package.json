@@ -1,0 +1,15 @@
+{
+  "name": "contractlens-ai",
+  "version": "2.0.0",
+  "description": "Unified AI Legal Defense Ecosystem — Contract Analyzer, Interactive PDF Reader, Browser Extension, Partner SDK Widget, Legal Terms Translator, Comparison AI & Renewal Reminders",
+  "type": "module",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "test": "node tests/verify-ecosystem.js",
+    "benchmark": "node tests/accuracy-benchmark.js"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ContractLens AI — Understand Before You Sign</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <!-- Unified Glass Topbar -->
+  <header class="topbar no-print">
+    <div class="topbar-inner">
+      <button type="button" class="brand" id="brandHomeBtn" title="ContractLens AI Home">
+        <span class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 28 28" fill="none">
+            <path d="M14 2.5L4.5 6.5V13.6C4.5 19.65 8.55 24.8 14 26.5C19.45 24.8 23.5 19.65 23.5 13.6V6.5L14 2.5Z" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <circle cx="13.5" cy="13.5" r="3.4" stroke="currentColor" stroke-width="2"/>
+            <path d="M16 16L18.8 18.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <strong>ContractLens</strong><span class="brand-ai">AI</span>
+        </span>
+      </button>
+
+      <nav class="nav-pills" aria-label="Primary navigation">
+        <button type="button" class="nav-pill active" data-view="analyze">Analyzer</button>
+        <button type="button" class="nav-pill" data-view="compare">Compare</button>
+        <button type="button" class="nav-pill" data-view="deadlines">Deadlines <span class="nav-badge" id="remindersCountBadge">0</span></button>
+        <button type="button" class="nav-pill" data-view="translator">Legal Translator</button>
+        <button type="button" class="nav-pill" data-view="whatif">What-If</button>
+        <button type="button" class="nav-pill" data-view="history">Vault <span class="nav-badge" id="historyCountBadge">0</span></button>
+        <button type="button" class="nav-pill special-nav" data-view="ecosystem">Extension &amp; SDK</button>
+      </nav>
+
+      <div class="topbar-actions">
+        <button type="button" class="engine-pill" id="openSettingsBtn" title="AI Engine Settings">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span id="engineBadgeText">ContractLens NLP</span>
+        </button>
+        <button type="button" class="icon-btn" id="themeToggleBtn" title="Toggle Dark / Light Mode" aria-label="Toggle Dark or Light Mode">
+          <svg id="themeIconSun" viewBox="0 0 20 20" fill="none" class="hidden" aria-hidden="true"><circle cx="10" cy="10" r="3.5" stroke="currentColor" stroke-width="1.6"/><path d="M10 2.5v2M10 15.5v2M2.5 10h2M15.5 10h2M4.7 4.7l1.4 1.4M13.9 13.9l1.4 1.4M15.3 4.7l-1.4 1.4M6.1 13.9l-1.4 1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <svg id="themeIconMoon" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M16.5 12.2A6.5 6.5 0 017.8 3.5a6.8 6.8 0 108.7 8.7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Persistent Legal Awareness & Local Privacy Strip -->
+  <div class="global-notice-bar no-print" role="note">
+    <div class="global-notice-inner">
+      <span><strong>Risk awareness only — not legal advice.</strong> Always verify important clauses with a qualified professional before signing.</span>
+      <span class="privacy-pill">
+        <svg class="ico-sm" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="4" y="9" width="12" height="8" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M7 9V6.5a3 3 0 016 0V9" stroke="currentColor" stroke-width="1.7"/></svg>
+        Documents are processed locally and not shared
+      </span>
+    </div>
+  </div>
+
+  <!-- Floating Selection Popover for Interactive Reader -->
+  <div id="selectionPopover" class="selection-popover hidden no-print">
+    <button type="button" id="popExplainBtn" class="pop-btn primary">Explain with AI</button>
+    <button type="button" id="popRiskBtn" class="pop-btn">Check Risk</button>
+    <button type="button" id="popDefineBtn" class="pop-btn">Define Term</button>
+    <button type="button" id="popAskBtn" class="pop-btn">Ask AI</button>
+  </div>
+
+  <main class="main-shell">
+    <!-- ==================== VIEW 1A: HOME / UPLOAD STUDIO ==================== -->
+    <section id="viewUpload" class="view-section">
+      <div class="hero-block">
+        <div class="hero-eyebrow">
+          <span class="status-dot" aria-hidden="true"></span>
+          AI Contract Intelligence Active
+        </div>
+        <h1 class="hero-title">Understand every clause <span class="gradient-text">before you sign.</span></h1>
+        <p class="hero-subtitle">
+          ContractLens AI reads the fine print, explains complex legal language, detects potential risks and helps you ask the right questions before accepting an agreement.
+        </p>
+
+        <div class="hero-cta-row">
+          <button type="button" class="btn-primary btn-lg" id="heroAnalyzeCtaBtn">Analyze My Contract</button>
+          <button type="button" class="btn-outline btn-lg" id="heroExploreCtaBtn">Explore Contract Intelligence</button>
+        </div>
+
+        <div class="trust-strip">
+          <span class="trust-item">
+            <svg class="ico-sm" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2.5L4 5v5c0 4.1 2.6 7.5 6 8.5 3.4-1 6-4.4 6-8.5V5l-6-2.5z" stroke="currentColor" stroke-width="1.7"/></svg>
+            Processed locally
+          </span>
+          <span class="trust-item">
+            <svg class="ico-sm" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.7"/><path d="M10 6.5v4M10 13.5h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            Risk awareness, not legal advice
+          </span>
+          <span class="trust-item">
+            <svg class="ico-sm" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M11 2.5L4.5 11h5l-1 6.5L15.5 9h-5l.5-6.5z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+            Works 100% offline
+          </span>
+        </div>
+
+        <div class="hero-feature-pills" aria-label="Platform capabilities">
+          <button type="button" class="feature-pill" data-cap="analyze"><i></i>Risk Analysis</button>
+          <button type="button" class="feature-pill" data-cap="reader"><i></i>Smart PDF Reader</button>
+          <button type="button" class="feature-pill" data-cap="translator"><i></i>Legal Translator</button>
+          <button type="button" class="feature-pill" data-cap="compare"><i></i>Contract Comparison</button>
+          <button type="button" class="feature-pill" data-cap="whatif"><i></i>What-If Simulation</button>
+          <button type="button" class="feature-pill" data-cap="deadlines"><i></i>Renewal Alerts</button>
+          <button type="button" class="feature-pill" data-cap="chat"><i></i>AI Contract Chat</button>
+        </div>
+      </div>
+
+      <div class="studio-grid" id="uploadStudioAnchor">
+        <div class="card studio-main">
+          <div class="card-header-row">
+            <div>
+              <h2>Analyze Any Contract</h2>
+              <p class="muted tiny">Upload <strong>PDF, DOCX or TXT</strong> · Supports <strong>₹ INR</strong> &amp; <strong>$ USD</strong></p>
+            </div>
+            <div class="domain-selector" id="domainSelector" role="group" aria-label="Contract type">
+              <button type="button" class="seg-btn active" data-domain="auto">Auto</button>
+              <button type="button" class="seg-btn" data-domain="rental">Rental</button>
+              <button type="button" class="seg-btn" data-domain="loan">Loan</button>
+              <button type="button" class="seg-btn" data-domain="employment">Employment</button>
+              <button type="button" class="seg-btn" data-domain="gig">Gig Work</button>
+            </div>
+          </div>
+
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Upload PDF, DOCX, or TXT contract">
+            <input type="file" id="fileInput" accept=".pdf,.docx,.txt,.md,.rtf" hidden />
+            <div class="dropzone-icon" aria-hidden="true">
+              <span class="dropzone-scan-line"></span>
+              <svg viewBox="0 0 28 28" fill="none"><path d="M14 18V6M14 6L9.5 10.5M14 6L18.5 10.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 18.5V21a2 2 0 002 2h14a2 2 0 002-2v-2.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <div class="dropzone-text">
+              <strong>Upload a contract to begin your analysis.</strong>
+              <span class="muted tiny">Drag &amp; drop here or <u class="link-accent">Browse Files</u></span>
+            </div>
+            <div class="dropzone-file-types" aria-hidden="true">
+              <span class="filetype-chip">PDF</span>
+              <span class="filetype-chip">DOCX</span>
+              <span class="filetype-chip">TXT</span>
+            </div>
+            <div class="selected-file-card hidden" id="selectedFileChip">
+              <div class="selected-file-meta">
+                <strong id="selectedFileName"></strong>
+                <span id="selectedFileMeta"></span>
+              </div>
+              <button type="button" class="btn-ghost sm-btn" id="clearFileBtn" aria-label="Remove uploaded file">Remove</button>
+            </div>
+          </div>
+
+          <div class="divider-or"><span>or paste contract text</span></div>
+
+          <div class="studio-meta-row">
+            <div class="form-group">
+              <label for="contractTitleInput">Contract Name (optional)</label>
+              <input type="text" id="contractTitleInput" class="text-input" placeholder="e.g., Indiranagar 2BHK Lease" />
+            </div>
+            <div class="form-group">
+              <label for="uploadRoleSelect">Your Role</label>
+              <select id="uploadRoleSelect" class="text-input">
+                <option value="auto">Auto-Detect Role</option>
+                <option value="tenant">Tenant</option>
+                <option value="gig_worker">Gig / Delivery Partner</option>
+                <option value="employee">Employee</option>
+                <option value="borrower">Borrower</option>
+                <option value="employer">Employer</option>
+                <option value="lender">Lender</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="uploadJurisdictionSelect">Jurisdiction</label>
+              <select id="uploadJurisdictionSelect" class="text-input">
+                <option value="india">India (Contract Act / MTA / RBI)</option>
+                <option value="us_general">US Federal / General</option>
+                <option value="california">California (US)</option>
+                <option value="new_york">New York (US)</option>
+                <option value="uk_eu">UK / EU Consumer Law</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="label-row">
+              <label for="contractTextInput">Contract Text</label>
+              <span class="char-counter" id="charCounter">0 words</span>
+            </div>
+            <textarea id="contractTextInput" class="textarea-input" rows="6" placeholder="Paste rental lease, loan agreement, or employment / gig-work terms here..."></textarea>
+          </div>
+
+          <div class="studio-footer">
+            <div class="error-banner hidden" id="uploadError"></div>
+            <button type="button" class="btn-primary btn-lg" id="analyzeBtn" style="width:100%;">
+              <span>Analyze Contract &amp; View Safety Score →</span>
+            </button>
+          </div>
+        </div>
+
+        <aside class="card studio-demos">
+          <div class="demos-header">
+            <span class="badge-accent">1-Click Interactive Demos</span>
+            <h3 style="margin-top:8px;">Try Realistic Contracts Instantly</h3>
+            <p class="muted tiny" style="margin-top:3px;">Click any contract to launch the Safety Score dashboard, Smart Reader, and negotiation playbook.</p>
+          </div>
+
+          <div id="sampleCardsContainer" class="sample-cards-list"></div>
+
+          <div class="compare-demo-callout">
+            <div class="section-row-between">
+              <span class="badge-accent">Multi-Document Ranking</span>
+              <span class="tiny muted">3 Rental Offers</span>
+            </div>
+            <strong>Not sure which offer is safest?</strong>
+            <p class="muted tiny">Load 3 realistic rental contracts side-by-side to see our Safety Score ranking, total cost, and combined negotiation checklist.</p>
+            <button type="button" class="btn-primary sm-btn" id="homeCompare3DemoBtn">Compare these 3 samples →</button>
+          </div>
+
+          <div class="ecosystem-quick-links">
+            <div class="callout-title">Explore Ecosystem Modules</div>
+            <div class="quick-mod-grid">
+              <button type="button" class="quick-mod-btn" data-jump-view="ecosystem">Extension &amp; Widget</button>
+              <button type="button" class="quick-mod-btn" data-jump-view="translator">Legal Translator</button>
+              <button type="button" class="quick-mod-btn" data-jump-view="compare">Compare Offers</button>
+              <button type="button" class="quick-mod-btn" data-jump-view="deadlines">Deadline Alerts</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 1B: ANALYSIS RESULT WORKSPACE ==================== -->
+    <section id="viewWorkspace" class="view-section hidden">
+      <!-- Sticky Summary Bar: Contract Name, Safety Score Ring, Risk Counts, Export -->
+      <div class="sticky-summary-bar" id="wsStickySummary">
+        <div class="workspace-bar-left">
+          <button type="button" class="btn-ghost sm-btn no-print" id="backToUploadBtn">← New</button>
+          <div class="sticky-score-chip" aria-label="Safety Score summary">
+            <div class="sticky-ring-wrap" id="stickyScoreRing"></div>
+            <div class="sticky-score-text">
+              <span class="sticky-score-num" id="stickySafetyLabel">Safety --/100</span>
+              <span class="tiny muted" id="stickyRiskSub">Risk --/100</span>
+            </div>
+          </div>
+          <div>
+            <div class="workspace-title-row">
+              <h1 id="wsTitle">Contract Title</h1>
+              <span class="domain-pill" id="wsDomainBadge">Rental Agreement</span>
+              <span class="engine-mini-pill no-print" id="wsEngineBadge">ContractLens NLP</span>
+            </div>
+            <p class="muted tiny" id="wsMetaLine"></p>
+          </div>
+        </div>
+        <div class="workspace-bar-right">
+          <div class="sticky-counts-strip" id="stickyRiskCounts"></div>
+          <button type="button" class="btn-primary sm-btn no-print" id="draftWholeContractBtn">Draft Message</button>
+          <button type="button" class="btn-outline sm-btn no-print" id="jumpToDeadlinesBtn">Deadlines</button>
+          <button type="button" class="btn-outline sm-btn no-print" id="sendToCompareBtn">Compare</button>
+          <button type="button" class="btn-outline sm-btn no-print" id="exportReportBtn">Export Report</button>
+        </div>
+      </div>
+
+      <!-- Command Strip: Role + Jurisdiction + 8-Language Audio Assistant -->
+      <div class="command-strip card no-print">
+        <div class="command-group">
+          <label class="cmd-label" for="wsRoleSelect">Role:</label>
+          <select id="wsRoleSelect" class="cmd-select">
+            <option value="tenant">Tenant</option>
+            <option value="gig_worker">Gig Worker</option>
+            <option value="employee">Employee</option>
+            <option value="borrower">Borrower</option>
+            <option value="employer">Employer</option>
+            <option value="lender">Lender</option>
+            <option value="other">Other</option>
+          </select>
+
+          <label class="cmd-label" for="wsJurisdictionSelect">Region:</label>
+          <select id="wsJurisdictionSelect" class="cmd-select">
+            <option value="india">India (Contract Act / MTA / RBI)</option>
+            <option value="us_general">US Federal / General</option>
+            <option value="california">California (US)</option>
+            <option value="new_york">New York (US)</option>
+            <option value="uk_eu">UK / EU Consumer Law</option>
+          </select>
+          <span class="legality-alert-pill" id="legalityAlertPill">Checking...</span>
+        </div>
+
+        <div class="command-group voice-controls-group">
+          <label class="cmd-label" for="wsLangSelect">Audio:</label>
+          <select id="wsLangSelect" class="cmd-select" title="Choose language for briefing &amp; voice audio">
+            <option value="en">English</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+            <option value="kn">ಕನ್ನಡ (Kannada)</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+            <option value="te">తెలుగు (Telugu)</option>
+            <option value="mr">मराठी (Marathi)</option>
+            <option value="es">Español (Spanish)</option>
+            <option value="fr">Français (French)</option>
+          </select>
+          <select id="wsVoiceSelect" class="cmd-select voice-select" title="Choose system voice">
+            <option value="auto">Auto Voice</option>
+          </select>
+          <select id="wsSpeechRateSelect" class="cmd-select" title="Audio playback speed">
+            <option value="0.85">0.85x</option>
+            <option value="1" selected>1.0x</option>
+            <option value="1.2">1.2x</option>
+          </select>
+          <button type="button" class="btn-audio" id="voiceBriefBtn" title="Listen to audio briefing">
+            <span class="audio-wave" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span id="voiceBriefLabel">Play Audio</span>
+          </button>
+          <button type="button" class="btn-outline sm-btn" id="voiceAskMicBtn" title="Ask ContractLens by voice">Voice Ask</button>
+        </div>
+      </div>
+
+      <div id="localizedBriefBanner" class="localized-banner hidden">
+        <div class="localized-banner-head">
+          <strong id="localizedHeading">Briefing</strong>
+          <button type="button" class="chip-clear" id="closeLocalizedBtn" aria-label="Close localized briefing">&times;</button>
+        </div>
+        <p id="localizedText"></p>
+      </div>
+
+      <!-- Loading Skeleton -->
+      <div id="workspaceSkeleton" class="skeleton-wrap hidden" aria-busy="true">
+        <div class="skeleton-grid">
+          <div class="skeleton-box tall"></div>
+          <div class="skeleton-box tall"></div>
+        </div>
+      </div>
+
+      <!-- CONTRACT ANALYSIS DASHBOARD HEADER + SIGNATURE RISK DNA RADAR + RISK RADAR -->
+      <div class="analysis-eyebrow-row">
+        <span class="badge-accent">CONTRACT ANALYSIS</span>
+        <span class="tiny muted" id="wsAnalysisDate">Analyzed today · Local Engine</span>
+      </div>
+
+      <div class="smart-dashboard-grid">
+        <div class="card kpi-score-card">
+          <div class="kpi-score-top">
+            <div class="score-gauge-wrap" id="scoreGaugeWrap" tabindex="0" aria-describedby="scoreGaugeTooltip"></div>
+            <div class="score-copy">
+              <div class="kpi-label">Safety Score <span style="font-weight:500;text-transform:none;">(higher = safer)</span> · <span id="wsPagesBadge">5 pages</span></div>
+              <div class="verdict-title" id="wsVerdict">Loading...</div>
+              <div class="tiny muted" id="wsSecondaryRiskLine" style="margin-bottom:6px;"></div>
+              <div class="traffic-light-strip" id="trafficLightStrip"></div>
+              <p class="verdict-summary" id="wsExecutiveSummary"></p>
+            </div>
+          </div>
+          <div class="risk-dist-strip" id="riskDistStrip"></div>
+        </div>
+
+        <!-- Signature Visual: 7-Axis Contract Risk DNA Radar + Bars -->
+        <div class="card dna-radar-card">
+          <div class="dna-radar-svg-wrap" id="heroDnaRadarSvg"></div>
+          <div>
+            <div class="section-row-between" style="margin-bottom:8px;">
+              <div>
+                <span class="badge-accent">Contract Fingerprint</span>
+                <h3 style="margin-top:4px;">Contract Risk DNA</h3>
+              </div>
+              <span class="sev-pill critical" id="heroDnaBandBadge">ATTENTION</span>
+            </div>
+            <div id="heroDnaMiniBars" class="dna-bars-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 Colored KPI Tiles -->
+      <div class="smart-buckets-grid" id="smartDashboardBuckets" style="margin-bottom:20px;"></div>
+
+      <!-- RISK RADAR: Top Detected Issues with View Clause -->
+      <section class="risk-radar-section hidden" id="riskRadarSection" aria-label="Risk Radar">
+        <div class="risk-radar-head">
+          <div>
+            <span class="badge-accent">Risk Radar</span>
+            <h2 style="margin-top:4px;">Most Important Detected Issues</h2>
+          </div>
+          <span class="tiny muted">Click "View Clause" to jump straight to the source text</span>
+        </div>
+        <div id="riskRadarGrid" class="risk-radar-grid"></div>
+      </section>
+
+      <!-- MAIN SPLIT-PANE: NATURAL PAGE SCROLLING -->
+      <div class="xray-split">
+        <!-- LEFT PANE: PAPER-STYLE SMART READER -->
+        <div class="card doc-pane">
+          <div class="pane-header">
+            <div class="pane-title-group">
+              <h3>Interactive Smart Document Reader</h3>
+              <span class="muted tiny">Highlight any sentence → click <strong>Explain with AI</strong></span>
+            </div>
+            <div class="doc-mode-toggle no-print" id="docModeToggle">
+              <button type="button" class="seg-btn active" data-doc-mode="reader">Document</button>
+              <button type="button" class="seg-btn" data-doc-mode="traffic">Traffic View</button>
+              <button type="button" class="seg-btn special-seg" data-doc-mode="redline">Auto-Redline</button>
+            </div>
+          </div>
+
+          <div class="reader-helper-bar no-print" id="readerHelperBar">
+            <div class="highlight-legend">
+              <span class="legend-item"><i class="tl-dot red"></i>High Risk</span>
+              <span class="legend-item"><i class="tl-dot yellow"></i>Needs Attention</span>
+              <span class="legend-item"><i class="tl-dot green"></i>Standard</span>
+            </div>
+            <button type="button" class="mini-action-btn" id="demoSelectSentenceBtn">Demo: Explain Highlighted Clause</button>
+          </div>
+
+          <div id="readerExplainDrawer" class="reader-explain-drawer hidden">
+            <div class="drawer-head">
+              <strong id="drawerExplainTitle">Explain with AI</strong>
+              <button type="button" class="chip-clear" id="closeExplainDrawerBtn" aria-label="Close clause explanation">&times;</button>
+            </div>
+            <div id="readerExplainContent"></div>
+          </div>
+
+          <div id="annotatedDocBody" class="pdf-reader-canvas"></div>
+          <div id="plainEnglishDocBody" class="plain-sections-canvas hidden"></div>
+
+          <div id="autoRedlineBody" class="redline-workspace hidden">
+            <div class="redline-toolbar">
+              <div class="redline-score-jump">
+                <span class="tiny muted">Projected Safety:</span>
+                <strong class="score-before" id="redlineBeforeScore">25 (F)</strong>
+                <span aria-hidden="true">→</span>
+                <strong class="score-after" id="redlineAfterScore">98 (A)</strong>
+                <span class="sev-pill safe" id="redlineDeltaPill">+73 pts</span>
+              </div>
+              <div class="redline-toolbar-btns">
+                <button type="button" class="btn-primary sm-btn" id="fixAllClausesBtn">Fix All Risks</button>
+                <button type="button" class="btn-outline sm-btn" id="copyCleanContractBtn">Copy Clean</button>
+                <button type="button" class="btn-outline sm-btn" id="downloadCleanContractBtn">Download .TXT</button>
+              </div>
+            </div>
+            <div class="redline-diff-canvas" id="redlineDiffCanvas"></div>
+          </div>
+        </div>
+
+        <!-- RIGHT PANE: STICKY KEYBOARD-OPERABLE TABS -->
+        <div class="card intel-pane">
+          <div class="intel-tabs no-print" id="intelTabs" role="tablist" aria-label="ContractLens AI panels">
+            <button type="button" class="intel-tab active" role="tab" id="tabBtn-findings" aria-selected="true" aria-controls="panelFindings" tabindex="0" data-tab="findings">Clauses <span class="tab-count" id="tabFindingsCount">0</span></button>
+            <button type="button" class="intel-tab" role="tab" id="tabBtn-bys" aria-selected="false" aria-controls="panelBys" tabindex="-1" data-tab="bys">Before You Sign</button>
+            <button type="button" class="intel-tab" role="tab" id="tabBtn-dna" aria-selected="false" aria-controls="panelDna" tabindex="-1" data-tab="dna">DNA &amp; Map</button>
+            <button type="button" class="intel-tab" role="tab" id="tabBtn-chat" aria-selected="false" aria-controls="panelChat" tabindex="-1" data-tab="chat">Ask My Contract</button>
+            <button type="button" class="intel-tab" role="tab" id="tabBtn-whatif" aria-selected="false" aria-controls="panelWhatIf" tabindex="-1" data-tab="whatif">What If?</button>
+            <button type="button" class="intel-tab" role="tab" id="tabBtn-sparring" aria-selected="false" aria-controls="panelSparring" tabindex="-1" data-tab="sparring">Sparring</button>
+            <button type="button" class="intel-tab" role="tab" id="tabBtn-playbook" aria-selected="false" aria-controls="panelPlaybook" tabindex="-1" data-tab="playbook">Negotiate</button>
+            <span class="tab-slider" id="intelTabSlider" aria-hidden="true"></span>
+          </div>
+
+          <!-- TAB 1: TOP 3 FIXES + COLLAPSIBLE CLAUSES -->
+          <div class="tab-panel active" id="panelFindings" role="tabpanel" aria-labelledby="tabBtn-findings">
+            <div id="top3FixesCard" class="top3-fixes-card hidden"></div>
+
+            <div class="depth-switcher-row no-print">
+              <span class="tiny muted" style="font-weight:700;">Explanation Depth:</span>
+              <div class="domain-selector" id="explanationDepthSelector">
+                <button type="button" class="seg-btn" data-depth="legal">Legal</button>
+                <button type="button" class="seg-btn active" data-depth="simple">Simple</button>
+                <button type="button" class="seg-btn" data-depth="beginner">Beginner</button>
+                <button type="button" class="seg-btn" data-depth="example">Example</button>
+              </div>
+            </div>
+
+            <div class="filter-bar no-print" id="findingFilterBar">
+              <button type="button" class="filter-chip active" data-filter="all">All</button>
+              <button type="button" class="filter-chip" data-filter="red">High Risk</button>
+              <button type="button" class="filter-chip" data-filter="yellow">Needs Attention</button>
+              <button type="button" class="filter-chip" data-filter="illegal">Statutory Note</button>
+              <button type="button" class="filter-chip" data-filter="fees">Fees &amp; Deductions</button>
+            </div>
+
+            <div id="findingsList" class="findings-list"></div>
+          </div>
+
+          <!-- TAB 2: BEFORE YOU SIGN (Dedicated Decision Support Screen) -->
+          <div class="tab-panel" id="panelBys" role="tabpanel" aria-labelledby="tabBtn-bys">
+            <div class="bys-card" id="beforeYouSignCard"></div>
+          </div>
+
+          <!-- TAB 3: RISK DNA, COMBINED CLAUSES, WHAT'S MISSING & RELATIONSHIP MAP -->
+          <div class="tab-panel" id="panelDna" role="tabpanel" aria-labelledby="tabBtn-dna">
+            <div class="insight-block">
+              <div class="section-row-between">
+                <h4>Contract Risk DNA</h4>
+                <span class="sev-pill critical" id="riskDnaOverallBadge">HIGH ATTENTION</span>
+              </div>
+              <p class="tiny muted">Decision-support indicators across 7 risk dimensions (not legal advice).</p>
+              <div id="riskDnaBars" class="dna-bars-list"></div>
+            </div>
+
+            <div class="insight-block">
+              <h4>Hidden Combined Clause Risks</h4>
+              <p class="tiny muted">Clauses that interact together to compound your exposure.</p>
+              <div id="combinedClausesList" class="combined-list"></div>
+            </div>
+
+            <div class="insight-block" style="border-left:4px solid var(--medium);">
+              <div class="section-row-between">
+                <h4>What's Missing?</h4>
+                <span class="sev-pill medium">Omissions &amp; Gaps (Distinct From Detected Risks)</span>
+              </div>
+              <p class="tiny muted">Important details or standard safeguards this agreement does not clearly specify.</p>
+              <div id="missingInfoList" class="missing-list"></div>
+              <div id="missingProtectionsList" class="missing-list" style="margin-top:6px;"></div>
+            </div>
+
+            <div class="insight-block">
+              <h4>Clause Relationship Map</h4>
+              <p class="tiny muted">Click any node to see what this clause connects to inside your contract.</p>
+              <div id="relationshipMapNodes" class="rel-map-chain"></div>
+              <div id="relationshipNodeDetail" class="rel-node-detail"></div>
+            </div>
+          </div>
+
+          <!-- TAB 4: ASK MY CONTRACT -->
+          <div class="tab-panel" id="panelChat" role="tabpanel" aria-labelledby="tabBtn-chat">
+            <div class="chat-wrapper">
+              <div class="section-row-between">
+                <div>
+                  <h3>Ask My Contract</h3>
+                  <p class="tiny muted">Ask anything about this agreement. Answers are grounded in your uploaded document.</p>
+                </div>
+                <span class="badge-soft">Contract-Grounded</span>
+              </div>
+              <div class="chat-suggestions" id="chatSuggestions"></div>
+              <div class="chat-messages" id="chatMessages"></div>
+              <form class="chat-input-bar" id="chatForm">
+                <input type="text" id="chatInput" class="text-input" placeholder="Ask anything about this agreement..." autocomplete="off" />
+                <button type="submit" class="btn-primary" id="chatSendBtn">Ask</button>
+              </form>
+            </div>
+          </div>
+
+          <!-- TAB 4: WHAT-IF SIMULATOR -->
+          <div class="tab-panel" id="panelWhatIf" role="tabpanel" aria-labelledby="tabBtn-whatif">
+            <div class="insight-block">
+              <span class="badge-accent">Hypothetical Flow</span>
+              <h4>"What Can Go Wrong?" Scenario Simulator</h4>
+              <p class="tiny muted">Trace step-by-step what this contract triggers in real life.</p>
+              <div class="chat-suggestions" id="scenarioQuickPills">
+                <button type="button" class="chat-chip" data-scen="What happens if I leave after two months?">Leave after 2 months?</button>
+                <button type="button" class="chat-chip" data-scen="What happens if I cancel this rental agreement early?">Cancel early?</button>
+                <button type="button" class="chat-chip" data-scen="What happens if I miss two loan payments?">Miss 2 payments?</button>
+                <button type="button" class="chat-chip" data-scen="What happens if my gig account is suspended?">Account suspended?</button>
+              </div>
+              <form class="chat-input-bar" id="scenarioForm">
+                <input type="text" id="scenarioInput" class="text-input sm" placeholder="Type any 'What happens if...' scenario..." />
+                <button type="submit" class="btn-primary sm-btn">Simulate</button>
+              </form>
+              <div id="scenarioFlowOutput" class="scenario-flow-box hidden"></div>
+            </div>
+
+            <div class="sim-hero-card">
+              <span class="badge-accent">Financial Stress Test</span>
+              <h4>Life-Event Cost Simulator</h4>
+              <p class="muted tiny">Toggle events below to compare this contract against a fair standard agreement.</p>
+              <div class="sim-scoreboard">
+                <div class="sim-metric danger"><span>This Contract</span><strong id="simPredatoryTotal">₹0</strong></div>
+                <div class="sim-metric safe"><span>Fair Contract</span><strong id="simFairTotal">₹0</strong></div>
+                <div class="sim-metric accent"><span>Risk Avoided</span><strong id="simSavingsTotal">₹0</strong></div>
+              </div>
+              <div class="sim-bars-compare">
+                <div class="sim-bar-row"><span class="tiny">This Contract</span><div class="bar-track lg"><div class="bar-fill" id="simBarPredatory" style="width:0%;background:var(--critical);"></div></div></div>
+                <div class="sim-bar-row"><span class="tiny">Fair Contract</span><div class="bar-track lg"><div class="bar-fill" id="simBarFair" style="width:0%;background:var(--safe);"></div></div></div>
+              </div>
+            </div>
+            <div id="whatIfScenariosList" class="sim-scenarios-list"></div>
+          </div>
+
+          <!-- TAB 5: NEGOTIATION SPARRING -->
+          <div class="tab-panel" id="panelSparring" role="tabpanel" aria-labelledby="tabBtn-sparring">
+            <div class="arena-setup-card">
+              <div class="arena-header-row">
+                <div>
+                  <span class="badge-accent">Practice Roleplay</span>
+                  <h4 style="margin-top:4px;">Negotiation Sparring Arena</h4>
+                </div>
+                <div class="concessions-pill" id="concessionsWonBadge">0 Clauses Won</div>
+              </div>
+              <div class="arena-controls-grid">
+                <div class="form-group compact">
+                  <label for="sparringClauseSelect">Clause to Negotiate</label>
+                  <select id="sparringClauseSelect" class="text-input sm"></select>
+                </div>
+                <div class="form-group compact">
+                  <label for="sparringDifficultySelect">Opponent Toughness</label>
+                  <select id="sparringDifficultySelect" class="text-input sm">
+                    <option value="reasonable">Reasonable</option>
+                    <option value="tough" selected>Tough Negotiator</option>
+                    <option value="hardball">Hardball Corporate</option>
+                  </select>
+                </div>
+              </div>
+              <div class="leverage-hud">
+                <div class="leverage-hud-top"><span>Your Leverage</span><strong id="leverageScoreLabel">35 / 100</strong></div>
+                <div class="bar-track lg"><div class="bar-fill" id="leverageBarFill" style="width:35%;background:var(--accent);"></div></div>
+                <div class="coach-tip-box" id="coachTipBox"></div>
+              </div>
+            </div>
+            <div class="arena-chat-box" id="sparringMessages"></div>
+            <div class="sparring-moves" id="sparringSuggestedMoves"></div>
+            <form class="chat-input-bar" id="sparringForm">
+              <input type="text" id="sparringInput" class="text-input" placeholder="Type your counter-offer or click a pro move..." autocomplete="off" />
+              <button type="submit" class="btn-primary" id="sparringSendBtn">Push Back</button>
+            </form>
+          </div>
+
+          <!-- TAB 6: NEGOTIATE PLAYBOOK -->
+          <div class="tab-panel" id="panelPlaybook" role="tabpanel" aria-labelledby="tabBtn-playbook">
+            <div class="insight-block">
+              <div class="section-row-between">
+                <h4>Negotiation Email Draft</h4>
+                <span class="badge-soft" id="selectedClausesCount">0 clauses selected</span>
+              </div>
+              <span class="sev-pill medium" style="align-self:flex-start;">Draft, review before sending</span>
+              <div class="tone-selector" id="emailToneSelector">
+                <button type="button" class="seg-btn active" data-tone="collaborative">Polite</button>
+                <button type="button" class="seg-btn" data-tone="professional">Professional</button>
+                <button type="button" class="seg-btn" data-tone="firm">Firm &amp; Direct</button>
+              </div>
+              <div class="email-meta-grid">
+                <input type="text" id="emailRecipientInput" class="text-input sm" placeholder="Recipient Name / Team" />
+                <input type="text" id="emailSenderInput" class="text-input sm" placeholder="Your Name" />
+              </div>
+              <textarea id="negotiationEmailBox" class="textarea-input email-textarea" rows="8"></textarea>
+              <div class="email-actions">
+                <button type="button" class="btn-primary" id="copyEmailBtn">Copy Draft</button>
+                <button type="button" class="btn-outline" id="downloadEmailBtn">Download .TXT</button>
+              </div>
+            </div>
+            <div class="insight-block">
+              <h4>Questions to Ask Before Signing</h4>
+              <div id="questionsList" class="questions-list"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 2: COMPARE BEFORE YOU ACCEPT ==================== -->
+    <section id="viewCompare" class="view-section hidden">
+      <div class="section-header-bar">
+        <div>
+          <h1>Compare Before You Accept</h1>
+          <p class="muted">Compare Contract A vs Contract B — or up to 5 offers side-by-side — to see key differences, total cost, and which option is least risky based on our analysis.</p>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button type="button" class="btn-primary sm-btn" id="loadThreeOfferDemoBtn">Compare 3 Rental Samples (₹)</button>
+          <button type="button" class="btn-outline sm-btn" id="loadIndianCompareDemoBtn">Load ₹10k vs ₹12k Demo</button>
+          <button type="button" class="btn-outline sm-btn" id="addCompareDocBtn">+ Add Document</button>
+        </div>
+      </div>
+
+      <div id="compareDocsList" class="compare-cards-grid"></div>
+
+      <div class="compare-action-row">
+        <div class="error-banner hidden" id="compareError"></div>
+        <button type="button" class="btn-primary btn-lg" id="runCompareBtn" disabled>Compare Documents Side-by-Side</button>
+        <span class="tiny muted" id="compareReadyHint">Add text or upload files to at least 2 documents to enable comparison.</span>
+      </div>
+
+      <div id="compareSkeleton" class="skeleton-wrap hidden" aria-busy="true">
+        <div class="skeleton-grid">
+          <div class="skeleton-box"></div>
+          <div class="skeleton-box"></div>
+          <div class="skeleton-box"></div>
+        </div>
+      </div>
+
+      <div id="compareResultContainer" class="compare-results hidden"></div>
+
+      <div class="card version-history-card" style="margin-top:24px;">
+        <div class="section-row-between" style="flex-wrap:wrap;margin-bottom:10px;">
+          <div>
+            <h3>Contract Version History (v1 → v2 → v3)</h3>
+            <p class="muted tiny">Track how risk, deposits, and renewal terms changed across consecutive revisions.</p>
+          </div>
+          <button type="button" class="btn-outline sm-btn" id="runVersionHistoryDemoBtn">Load v1 → v2 → v3 Demo</button>
+        </div>
+        <div id="versionHistoryOutput" class="version-timeline"></div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 3: CONTRACT TIMELINE & RENEWAL ALERTS ==================== -->
+    <section id="viewDeadlines" class="view-section hidden">
+      <div class="section-header-bar">
+        <div>
+          <h1>Contract Timeline</h1>
+          <p class="muted">Track Contract Start, Notice Deadline, Payment Deadline, Cancellation Deadline, Renewal Date, and Contract End — exportable to Calendar (<code>.ics</code>).</p>
+        </div>
+        <button type="button" class="btn-outline" id="testAlertBtn">Test Renewal Alert</button>
+      </div>
+
+      <div id="liveDeadlineAlertBanner" class="deadline-alert-hero">
+        <div>
+          <span class="sev-pill critical">⚠ Renewal Alert</span>
+          <h3 id="heroAlertTitle" style="margin-top:6px;">Automatic renewal detected.</h3>
+          <p id="heroAlertBody">Review the cancellation conditions before the renewal deadline so your agreement does not extend automatically.</p>
+          <p class="tiny muted" id="heroAlertConsequence" style="margin-top:4px;">Analyze any contract or click a 1-click demo to pull exact calendar dates from its clauses.</p>
+        </div>
+        <button type="button" class="chip-clear" id="closeHeroAlertBtn" aria-label="Dismiss renewal alert">&times;</button>
+      </div>
+
+      <div id="timelineMilestonesBar" class="timeline-milestones"></div>
+
+      <div class="deadlines-layout">
+        <div class="card">
+          <div class="section-row-between" style="margin-bottom:14px;">
+            <div>
+              <h3>Extracted Contract Timeline</h3>
+              <p class="muted tiny" id="deadlinesActiveContractLabel">Analyze a contract to extract dates automatically.</p>
+            </div>
+          </div>
+          <div id="extractedRemindersList" class="reminders-stack"></div>
+        </div>
+
+        <div class="card">
+          <div class="section-row-between" style="margin-bottom:14px;">
+            <div>
+              <h3>Saved Reminder Vault</h3>
+              <p class="muted tiny">Persisted reminders across all your agreements</p>
+            </div>
+          </div>
+          <div id="savedRemindersList" class="reminders-stack"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 4: LEGAL TERMS TRANSLATOR ==================== -->
+    <section id="viewTranslator" class="view-section hidden">
+      <div class="section-header-bar">
+        <div>
+          <h1>Legal Translator</h1>
+          <p class="muted">Translate complex legal terms into plain language — and see how each term affects your uploaded contract.</p>
+        </div>
+        <label class="eli5-switch-card">
+          <input type="checkbox" id="eli5Toggle" />
+          <span><strong>Explain Like I'm New to Contracts</strong></span>
+        </label>
+      </div>
+
+      <div class="translator-search-bar card">
+        <input type="search" id="glossarySearchInput" class="text-input" placeholder="Search a legal term..." aria-label="Search a legal term" />
+        <div class="glossary-quick-pills" id="glossaryQuickPills"></div>
+      </div>
+
+      <div class="translator-layout">
+        <div id="glossaryCardsGrid" class="glossary-grid"></div>
+        <aside class="card translator-detail-pane" id="glossaryDetailPane">
+          <div class="empty-state">Select any legal term on the left to view its plain-English meaning and in-contract impact.</div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 5: CONTRACTLENS EVERYWHERE ==================== -->
+    <section id="viewEcosystem" class="view-section hidden">
+      <div class="section-header-bar">
+        <div>
+          <h1>ContractLens Everywhere</h1>
+          <p class="muted">Browser Extension &amp; Embedded Website SDK — understand clauses right inside rental portals, loan checkouts, and gig-work apps.</p>
+        </div>
+        <div class="domain-selector" id="ecosystemSubTabs">
+          <button type="button" class="seg-btn active" data-eco="extension">Browser Extension</button>
+          <button type="button" class="seg-btn" data-eco="widget">Partner App Widget</button>
+        </div>
+      </div>
+
+      <div id="ecoExtensionView" class="eco-panel">
+        <div class="browser-chrome-frame card">
+          <div class="browser-toolbar">
+            <div class="browser-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+            <div class="browser-url-bar" id="mockBrowserUrl">https://partners.quickdash.in/onboarding/delivery-agreement</div>
+            <div class="browser-page-switcher">
+              <button type="button" class="seg-btn active" data-mock-site="gig">Delivery Partner</button>
+              <button type="button" class="seg-btn" data-mock-site="rental">Rental Portal</button>
+              <button type="button" class="seg-btn" data-mock-site="loan">Loan Web</button>
+            </div>
+            <button type="button" class="ext-toolbar-btn" id="extScanFullPageBtn">ContractLens: Scan Page</button>
+          </div>
+
+          <div class="browser-split-body">
+            <div class="mock-webpage" id="mockWebpageContent"></div>
+            <aside class="ext-side-panel">
+              <div class="ext-panel-head">
+                <div>
+                  <strong>ContractLens Side Panel</strong>
+                  <div class="tiny muted">Active beside webpage · Local NLP</div>
+                </div>
+                <span class="sev-pill safe">LIVE</span>
+              </div>
+              <div id="extAssistantOutput" class="ext-output-area">
+                <div class="empty-state">Click <strong>"Explain this"</strong> or <strong>"Check risks"</strong> on any clause on the left — or run a full-page scan above.</div>
+              </div>
+              <div class="ext-install-note">
+                <strong>Manifest V3 Extension Included:</strong> Ready to load unpacked from <code>ContractLens-AI/extensions/</code> in <code>chrome://extensions</code>.
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+
+      <div id="ecoWidgetView" class="eco-panel hidden">
+        <div class="partner-showcase-grid">
+          <div class="card partner-app-card">
+            <div class="partner-app-header gig-header">
+              <span class="partner-logo">SwiftDrop Partner App</span>
+              <span class="tiny">Mobile Onboarding Screen</span>
+            </div>
+            <div class="partner-app-body">
+              <h3>Partner Agreement</h3>
+              <div class="partner-tag-row">
+                <span>Payment</span> · <span>Incentives</span> · <span>Penalties</span> · <span>Termination</span>
+              </div>
+              <div class="partner-terms-box" id="partnerGigClauseText">
+                You may be subject to changes in incentive structures, deductions for cancelled slots or customer complaints, and payment policy adjustments as determined by the platform at its discretion. Partner agrees not to work on competing apps during peak hours.
+              </div>
+              <button type="button" class="understand-ai-btn" data-widget-target="gig">Understand This with ContractLens AI</button>
+              <div id="widgetResultGig" class="widget-result-slot hidden"></div>
+              <div class="partner-accept-row">
+                <label class="tiny muted"><input type="checkbox" /> I agree to the Partner Agreement</label>
+                <button type="button" class="btn-outline sm-btn" disabled>Accept &amp; Start</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card partner-app-card">
+            <div class="partner-app-header loan-header">
+              <span class="partner-logo">QuickRupee Instant Loan</span>
+              <span class="tiny">Digital Lending Checkout</span>
+            </div>
+            <div class="partner-app-body">
+              <h3>Loan Sanction &amp; Auto-Debit Terms</h3>
+              <div class="partner-tag-row">
+                <span>Disbursement</span> · <span>38.5% APR</span> · <span>Foreclosure</span> · <span>e-NACH</span>
+              </div>
+              <div class="partner-terms-box" id="partnerLoanClauseText">
+                An upfront 9% Origination &amp; Processing Fee will be deducted directly from loan proceeds before disbursement while daily-compounded 38.5% APR applies on the full principal. Prepayment prior to 24 EMIs attracts a 6% foreclosure penalty plus 6 months unearned interest.
+              </div>
+              <button type="button" class="understand-ai-btn" data-widget-target="loan">Understand This with ContractLens AI</button>
+              <div id="widgetResultLoan" class="widget-result-slot hidden"></div>
+              <div class="partner-accept-row">
+                <label class="tiny muted"><input type="checkbox" /> Authorize e-NACH &amp; Terms</label>
+                <button type="button" class="btn-outline sm-btn" disabled>Get Instant Cash</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card sdk-embed-card">
+          <div class="section-row-between" style="flex-wrap:wrap;">
+            <div>
+              <h3>1-Line Partner Widget SDK (<code>/widget.js</code>)</h3>
+              <p class="muted tiny">Embed ContractLens into any onboarding flow in 30 seconds:</p>
+            </div>
+            <button type="button" class="btn-primary sm-btn" id="copySdkBtn">Copy SDK Snippet</button>
+          </div>
+          <pre class="sdk-code-box" id="sdkCodeSnippet">&lt;div data-contractlens-clause&gt;Your agreement terms here...&lt;/div&gt;
+&lt;script src="http://127.0.0.1:3000/widget.js"&gt;&lt;/script&gt;</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 6: PERSONAL CONTRACT VAULT ==================== -->
+    <section id="viewHistory" class="view-section hidden">
+      <div class="section-header-bar">
+        <div>
+          <h1>Contract Vault</h1>
+          <p class="muted">Search, filter, and query across all contracts you have reviewed locally.</p>
+        </div>
+        <button type="button" class="btn-primary" id="historyNewScanBtn">+ Analyze New Contract</button>
+      </div>
+
+      <div class="card memory-card" style="margin-bottom:18px;">
+        <div class="section-row-between" style="margin-bottom:10px;">
+          <h4>Contract Memory — Ask Across All Saved Contracts</h4>
+          <span class="badge-soft">Local Search</span>
+        </div>
+        <div class="chat-suggestions" id="memoryQuickPills" style="margin-bottom:10px;">
+          <button type="button" class="chat-chip" data-mem="Which of my contracts have automatic renewal?">Automatic renewal?</button>
+          <button type="button" class="chat-chip" data-mem="Which contract has the highest financial risk?">Highest financial risk?</button>
+          <button type="button" class="chat-chip" data-mem="Which contracts have notice periods longer than 30 days?">Notice &gt; 30 days?</button>
+          <button type="button" class="chat-chip" data-mem="Show me all contracts with penalty clauses.">All penalty clauses?</button>
+        </div>
+        <form class="chat-input-bar" id="memoryForm">
+          <input type="text" id="memoryInput" class="text-input" placeholder="Ask across all your saved contracts..." />
+          <button type="submit" class="btn-primary">Search Memory</button>
+        </form>
+        <div id="memoryResultBox" class="memory-result hidden"></div>
+      </div>
+
+      <div class="history-stats-grid" id="historyStatsGrid"></div>
+
+      <div class="vault-controls-bar">
+        <div class="vault-search-wrap">
+          <input type="search" id="vaultSearchInput" class="text-input sm" placeholder="Filter saved contracts by title or type..." aria-label="Filter saved contracts" />
+        </div>
+        <div class="filter-bar" id="vaultFilterBar">
+          <button type="button" class="filter-chip active" data-vault-filter="all">All</button>
+          <button type="button" class="filter-chip" data-vault-filter="rental">Rental</button>
+          <button type="button" class="filter-chip" data-vault-filter="loan">Loan</button>
+          <button type="button" class="filter-chip" data-vault-filter="employment">Job / Gig</button>
+          <button type="button" class="filter-chip" data-vault-filter="highrisk">Safety &lt; 50</button>
+        </div>
+      </div>
+
+      <div id="historyListContainer" class="history-grid"></div>
+
+      <div class="card privacy-card" style="margin-top:22px;">
+        <div class="section-row-between" style="flex-wrap:wrap;gap:12px;">
+          <div>
+            <h4>Local Privacy Controls</h4>
+            <p class="muted tiny">All documents are analyzed locally on this machine and never sent to third-party servers unless you configure an optional API key in Engine Settings.</p>
+          </div>
+          <button type="button" class="btn-danger sm-btn" id="clearAllPrivacyBtn">Clear All Saved Data</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Elegant Footer Disclaimer -->
+    <footer class="legal-disclaimer-footer no-print">
+      <span><strong>Informational Risk Awareness — Not Legal Advice.</strong> ContractLens AI highlights potentially risky clauses and suggests questions to ask before signing.</span>
+      <span class="tiny">Processed locally · Zero external sharing · Offline-ready</span>
+    </footer>
+  </main>
+
+  <!-- Analyzing Radar Overlay -->
+  <div id="analyzingOverlay" class="overlay hidden" role="status" aria-live="polite">
+    <div class="loader-card radar-scan-card">
+      <div class="spinner-ring"></div>
+      <h3>ContractLens AI is reading your agreement...</h3>
+      <div class="scan-progress-wrap">
+        <div class="bar-track lg"><div class="bar-fill" id="scanProgressBar" style="width:18%;background:linear-gradient(90deg,var(--accent),var(--accent-end));"></div></div>
+        <strong id="scanPercentLabel" class="tabular" style="font-family:var(--font-mono);">18%</strong>
+      </div>
+      <ul class="pipeline-steps" id="pipelineSteps">
+        <li data-step="0" class="active">Extracting clauses</li>
+        <li data-step="1">Identifying obligations</li>
+        <li data-step="2">Checking risk patterns</li>
+        <li data-step="3">Building your contract profile</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- AI Engine Settings Modal -->
+  <div id="settingsModal" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="settingsModalTitle">AI Engine Settings</h3>
+        <button type="button" class="icon-btn" id="closeSettingsBtn" aria-label="Close AI Engine Settings">&times;</button>
+      </div>
+      <p class="muted tiny" style="margin-bottom:14px;">ContractLens works 100% offline with zero setup. Optionally enable hybrid cloud mode:</p>
+      <div class="form-group">
+        <label for="llmProviderSelect">Engine Mode</label>
+        <select id="llmProviderSelect" class="text-input">
+          <option value="local">Built-In ContractLens Deep Legal NLP (Offline &amp; Private)</option>
+          <option value="gemini">Hybrid + Live Google Gemini 2.5 Flash</option>
+          <option value="openai">Hybrid + Live OpenAI GPT-4o-mini</option>
+        </select>
+      </div>
+      <div class="form-group hidden" id="apiKeyGroup">
+        <label for="llmApiKeyInput">API Key (session only)</label>
+        <input type="password" id="llmApiKeyInput" class="text-input" placeholder="Paste API key..." />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-ghost" id="cancelSettingsBtn">Cancel</button>
+        <button type="button" class="btn-primary" id="saveSettingsBtn">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Polished Slide-Over Drawer for Draft Message to Other Party -->
+  <div id="draftMessageModal" class="overlay drawer-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="draftModalTitle">
+    <div class="drawer-panel">
+      <div class="modal-header">
+        <div>
+          <span class="sev-pill medium">Draft, review before sending</span>
+          <h3 id="draftModalTitle" style="margin-top:6px;">Draft Message to the Other Party</h3>
+        </div>
+        <button type="button" class="icon-btn" id="closeDraftModalBtn" aria-label="Close draft message drawer">&times;</button>
+      </div>
+      <p class="tiny muted">Review and customize every line before sending. This draft is for practical negotiation and is not legal advice.</p>
+      <textarea id="draftModalTextarea" class="textarea-input" aria-label="Draft message text"></textarea>
+      <div class="modal-footer">
+        <button type="button" class="btn-ghost" id="cancelDraftModalBtn">Close</button>
+        <button type="button" class="btn-primary" id="copyDraftModalBtn">Copy Draft</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dismissible Top Toast -->
+  <div id="toast" class="toast hidden" role="status" aria-live="polite">
+    <span id="toastText"></span>
+    <button type="button" class="toast-close" id="toastCloseBtn" aria-label="Dismiss notification">&times;</button>
+  </div>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

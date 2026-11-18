@@ -1,0 +1,72 @@
+{
+  "_meta": {
+    "notice": "PLACEHOLDER LAW REFERENCE ENTRIES — Replace or expand with your verified jurisdiction-specific statutes before production use.",
+    "disclaimer": "Verify before relying. Informational awareness only, not legal advice."
+  },
+  "rental": {
+    "hidden_fee": {
+      "law_name": "[Placeholder] State Tenancy & Consumer Fee Disclosure Rules",
+      "generally_covers": "Generally covers transparency of mandatory recurring charges, rent breakdowns, and limits on undisclosed add-on fees in residential leases.",
+      "placeholder": true
+    },
+    "auto_renewal": {
+      "law_name": "[Placeholder] Model Tenancy Act / State Lease Renewal Rules",
+      "generally_covers": "Generally covers lease renewal notice windows, rent escalation caps, and conversion to month-to-month tenancy.",
+      "placeholder": true
+    },
+    "unfair_clause": {
+      "law_name": "[Placeholder] Residential Habitability & Security Deposit Statutes",
+      "generally_covers": "Generally covers security deposit caps, itemized refund timelines, exclusion of normal wear and tear, and landlord structural repair duties.",
+      "placeholder": true
+    },
+    "termination": {
+      "law_name": "[Placeholder] Tenancy Termination & Lock-In Notice Rules",
+      "generally_covers": "Generally covers early termination notice requirements, duty to mitigate vacancy loss, and limits on deposit forfeiture.",
+      "placeholder": true
+    },
+    "rights_liability": {
+      "law_name": "[Placeholder] Tenant Privacy, Liability & Neutral Arbitration Principles",
+      "generally_covers": "Generally covers advance notice prior to landlord entry, non-waivable negligence liability, and neutral dispute resolution.",
+      "placeholder": true
+    }
+  },
+  "loan": {
+    "hidden_fee": {
+      "law_name": "[Placeholder] Digital Lending Disclosure & APR Guidelines (e.g., RBI KFS / TILA)",
+      "generally_covers": "Generally covers mandatory upfront disclosure of net disbursed amount, processing/origination fees, all-in APR, and prohibition on hidden charges.",
+      "placeholder": true
+    },
+    "auto_renewal": {
+      "law_name": "[Placeholder] Consumer Loan Prepayment & Foreclosure Guidelines",
+      "generally_covers": "Generally covers borrower rights regarding early loan closure, partial prepayments, and restrictions on foreclosure penalties.",
+      "placeholder": true
+    },
+    "rights_liability": {
+      "law_name": "[Placeholder] Fair Debt Collection, Auto-Debit & Borrower Due-Process Rules",
+      "generally_covers": "Generally covers revocable auto-debit mandates, limits on pre-judgment waivers/wage assignment, and fair default notice.",
+      "placeholder": true
+    }
+  },
+  "employment": {
+    "hidden_fee": {
+      "law_name": "[Placeholder] Payment of Wages & Contractor Invoice Protection Rules",
+      "generally_covers": "Generally covers timely wage/payout cycles, transparency of deductions, and protection against arbitrary withholding of earned pay.",
+      "placeholder": true
+    },
+    "unfair_clause": {
+      "law_name": "[Placeholder] Restraint of Trade & Intellectual Property Ownership Statutes",
+      "generally_covers": "Generally covers enforceability limits on post-termination non-compete clauses, worker classification, and personal off-hours IP ownership.",
+      "placeholder": true
+    },
+    "termination": {
+      "law_name": "[Placeholder] Employment & Contractor Termination Settlement Standards",
+      "generally_covers": "Generally covers notice-period fairness, payment of accrued dues upon separation, and limits on punitive liquidated fines.",
+      "placeholder": true
+    },
+    "rights_liability": {
+      "law_name": "[Placeholder] Unconscionable Indemnity & Protected Speech Rules",
+      "generally_covers": "Generally covers reasonableness of liability caps, mutual indemnification, and protection for truthful workplace/consumer feedback.",
+      "placeholder": true
+    }
+  }
+}
